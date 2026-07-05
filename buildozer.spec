@@ -1,53 +1,63 @@
-name: Build APK
+[app]
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
+# (str) Title of your application
+title = Мои тренировки
 
-jobs:
-  build:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
+# (str) Package name
+package.name = trainingapp
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+# (str) Package domain (needed for android/ios packaging)
+package.domain = org.example
 
-      - name: Cache buildozer global directory
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.buildozer
-          key: buildozer-global-${{ hashFiles('buildozer.spec') }}
+# (str) Source code where the main.py live
+source.dir = .
 
-      - name: Cache buildozer project directory
-        uses: actions/cache@v4
-        with:
-          path: |
-            .buildozer
-          key: buildozer-${{ hashFiles('buildozer.spec') }}
+# (list) Source files to include (let empty to include all the files)
+source.include_exts = py,png,jpg,kv,atlas,json
 
-      - name: Install system dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk \
-            autoconf automake libtool pkg-config zlib1g-dev \
-            libffi-dev libssl-dev libsqlite3-dev
+# (str) Application versioning
+version = 1.0
 
-      - name: Install buildozer
-        run: |
-          pip install --upgrade pip
-          pip install buildozer cython==0.29.36
+# (list) Application requirements
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow
 
-      - name: Build APK
-        run: |
-          yes | buildozer android debug
+# (str) Presplash of the application
+#presplash.filename = %(source.dir)s/data/presplash.png
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: training-app-apk
-          path: bin/*.apk
+# (str) Icon of the application
+#icon.filename = %(source.dir)s/data/icon.png
+
+# (str) Supported orientation (landscape, sensorLandscape, portrait or all)
+orientation = portrait
+
+# (bool) Indicate if the application should be fullscreen or not
+fullscreen = 0
+
+# (list) Permissions
+android.permissions = INTERNET
+
+# (int) Target Android API, should be as high as possible.
+android.api = 33
+
+# (int) Minimum API your APK / AAB will support.
+android.minapi = 21
+
+# (str) Android NDK version to use
+android.ndk = 25b
+
+# (list) The Android archs to build for
+android.archs = arm64-v8a, armeabi-v7a
+
+# (bool) enables Android auto backup feature (Android API >=23)
+android.allow_backup = True
+
+# (int) Log level for buildozer (2 = debug, useful when reporting issues)
+log_level = 2
+
+[buildozer]
+
+# (int) Log level (0 = only error, 1 = info, 2 = debug (with command output))
+log_level = 2
+
+# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
+warn_on_root = 1
