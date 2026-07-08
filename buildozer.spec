@@ -43,7 +43,14 @@ android.api = 33
 android.minapi = 21
 
 # (str) Android NDK version to use
-android.ndk = 25b
+android.ndk = 28c
+
+# (str) python-for-android fork to use in case if some fork is required
+#p4a.fork = kivy
+
+# (str) python-for-android branch to use, defaults to master
+# Закреплено на стабильном релизе, чтобы не ловить баги из нестабильного master
+p4a.branch = 2026.5.9
 
 # (list) The Android archs to build for
 android.archs = arm64-v8a, armeabi-v7a
