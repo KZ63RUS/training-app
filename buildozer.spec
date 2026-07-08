@@ -50,7 +50,7 @@ android.ndk = 28c
 
 # (str) python-for-android branch to use, defaults to master
 # Закреплено на стабильном релизе, чтобы не ловить баги из нестабильного master
-p4a.branch = 2026.5.9
+p4a.branch = v2026.05.09
 
 # (list) The Android archs to build for
 android.archs = arm64-v8a, armeabi-v7a
