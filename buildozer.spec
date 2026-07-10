@@ -43,7 +43,7 @@ android.api = 33
 android.minapi = 21
 
 # (str) Android NDK version to use
-android.ndk = 28c
+android.ndk = 25b
 
 # (str) python-for-android fork to use in case if some fork is required
 #p4a.fork = kivy
