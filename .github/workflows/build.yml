@@ -37,9 +37,14 @@ jobs:
             autoconf automake libtool pkg-config zlib1g-dev \
             libffi-dev libssl-dev libsqlite3-dev
 
+      - name: Constrain pip version to avoid p4a/pip internal incompatibility
+        run: |
+          echo "pip<24.1" > /tmp/pip-constraints.txt
+          echo "PIP_CONSTRAINT=/tmp/pip-constraints.txt" >> "$GITHUB_ENV"
+
       - name: Install buildozer
         run: |
-          pip install --upgrade pip
+          pip install --upgrade "pip<24.1"
           pip install buildozer cython==0.29.36
 
       - name: Build APK
