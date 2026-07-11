@@ -947,4 +947,36 @@ class TrainingApp(MDApp):
 
 
 if __name__ == "__main__":
-    TrainingApp().run()
+    try:
+        TrainingApp().run()
+    except Exception:
+        # Если приложение падает — вместо мгновенного закрытия
+        # показываем текст ошибки прямо на экране телефона.
+        import traceback
+        from kivy.app import App
+        from kivy.uix.scrollview import ScrollView
+        from kivy.uix.label import Label
+
+        error_text = traceback.format_exc()
+        print("=== CRASH TRACEBACK ===")
+        print(error_text)
+
+        class CrashReportApp(App):
+            def build(self):
+                label = Label(
+                    text=error_text,
+                    size_hint_y=None,
+                    halign="left",
+                    valign="top",
+                    color=(1, 1, 1, 1),
+                    font_size="13sp",
+                )
+                label.bind(
+                    width=lambda instance, value: setattr(instance, "text_size", (value, None)),
+                    texture_size=lambda instance, value: setattr(instance, "height", value[1]),
+                )
+                scroll = ScrollView(do_scroll_x=False)
+                scroll.add_widget(label)
+                return scroll
+
+        CrashReportApp().run()
